@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Editar Aluno</h2>
+    
+    <form method="post">
+        <div class="form-group">
+            <label for="nome">Nome*</label>
+            <input type="text" name="nome" id="nome" value="{{ aluno['nome'] }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" name="email" id="email" value="{{ aluno['email'] }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" name="telefone" id="telefone" value="{{ aluno['telefone'] or '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="curso">Curso</label>
+            <input type="text" name="curso" id="curso" value="{{ aluno['curso'] or '' }}">
+        </div>
+        
+        <button type="submit" class="btn submit">Atualizar</button>
+        <a href="{{ url_for('index') }}" class="btn cancel">Cancelar</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Estatísticas dos Alunos</h2>
+    
+    <div class="stats-container">
+        <div class="chart-container">
+            <canvas id="cursosChart"></canvas>
+        </div>
+        
+        <div class="summary">
+            <h3>Resumo</h3>
+            <p>Total de alunos: <strong>{{ total_alunos }}</strong></p>
+            <ul>
+                {% for label, valor in zip(labels, valores) %}
+                    <li>{{ label }}: <strong>{{ valor }}</strong> ({{ (valor / total_alunos * 100)|round(1) }}%)</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('cursosChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ labels|tojson|safe }},
+                    datasets: [{
+                        label: 'Alunos por Curso',
+                        data: {{ valores|tojson|safe }},
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribuição de Alunos por Curso'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Lista de Alunos</h2>
+
+    <form method="get" class="search-form">
+        <input type="text" name="search" placeholder="Buscar por nome, email ou curso..." value="{{ search_term }}">
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Curso</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+                <tr>
+                    <td>{{ aluno['id'] }}</td>
+                    <td>{{ aluno['nome'] }}</td>
+                    <td>{{ aluno['email'] }}</td>
+                    <td>{{ aluno['curso'] or '-' }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('ver_aluno', id=aluno['id']) }}" class="btn view">Ver</a>
+                        <a href="{{ url_for('editar', id=aluno['id']) }}" class="btn edit">Editar</a>
+                        <form action="{{ url_for('deletar', id=aluno['id']) }}" method="post">
+                            <button type="submit" class="btn delete" onclick="return confirm('Tem certeza que deseja deletar este aluno?')">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

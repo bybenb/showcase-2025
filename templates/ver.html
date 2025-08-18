@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Detalhes do Aluno</h2>
+    
+    <div class="aluno-details">
+        <p><strong>ID:</strong> {{ aluno['id'] }}</p>
+        <p><strong>Nome:</strong> {{ aluno['nome'] }}</p>
+        <p><strong>Email:</strong> {{ aluno['email'] }}</p>
+        <p><strong>Telefone:</strong> {{ aluno['telefone'] or '-' }}</p>
+        <p><strong>Curso:</strong> {{ aluno['curso'] or '-' }}</p>
+        <p><strong>Cadastrado em:</strong> {{ aluno['criado_em'] }}</p>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('editar', id=aluno['id']) }}" class="btn edit">Editar</a>
+        <form action="{{ url_for('deletar', id=aluno['id']) }}" method="post">
+            <button type="submit" class="btn delete" onclick="return confirm('Tem certeza que deseja deletar este aluno?')">Deletar</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn back">Voltar</a>
+    </div>
+{% endblock %}
